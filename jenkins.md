@@ -62,3 +62,9 @@ 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
 - https://cloudaffaire.com/how-to-integrate-github-repository-with-jenkins/
 - https://gitlab.com/daresoremi/polling/-/blob/master/Jenkinsfile
 
+## Github
+
++ https://github.com/kgautam077/ayushshiv
++ https://github.com/iamvickyav/jenkins-declarative-pipeline-notes
+
+
