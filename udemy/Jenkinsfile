@@ -1,0 +1,43 @@
+pipeline {
+    agent any
+
+    stages{
+        stage('Build the Dependicies'){
+            steps{
+                sh 'pip3 install -r requirements.txt'
+            }
+        }
+         stage('Testing the Django Project'){
+            steps{
+                sh 'python3 manage.py test'
+            }
+        }
+         stage('Deploying to staging'){
+            steps{
+                sh 'echo "Deploying to staging'
+                // sh 'sudo apt-get update && sudo apt-get install -y python3-dev && sudo apt-get install default-libmysqlclient-dev'
+            }
+        }
+         stage('Deploying to Production'){
+
+            input {
+                message 'Can we Proceed to Production?'
+                ok 'Yes'
+            }
+            steps{
+                sh 'ssh -o StrictHostKeyChecking=no username@192.168.0.1 "source venv/bin/activate; \
+                cd polling; \
+                git pull origin master; \
+                pip install -r requirements.txt --no-warn-script-location; \
+                python manage.py makemigrations; \
+                python manage.py migrate; \
+                python manage.py collectstatic; \
+                deactivate; \
+                sudo systemctl restart gunicorn; \
+                sudo systemctl restart nginx" '
+                
+            }
+
+        }
+    }
+}

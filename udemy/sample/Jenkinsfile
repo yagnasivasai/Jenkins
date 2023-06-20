@@ -1,0 +1,42 @@
+pipeline{
+    agent any
+    stages{
+        stage('Stage 1'){
+            steps{
+                sh 'echo Installing dependencies'
+            }
+        }
+        stage('Stage 2'){
+            steps{
+                sh 'echo testing python code'
+            }
+        }
+        stage('Stage 3'){
+            steps{
+                sh 'echo Deployingto staging'
+            }
+        }
+        stage('Stage 4'){
+            input {
+                message 'Can we Proceed to Production?'
+                ok 'Yes'
+            }
+            steps{
+                sh 'echo Deploying to Production'
+            }
+        }
+    }
+    
+}
+
+git clone "git repos"
+#git init
+
+git config --global user.name "saiharsha"
+git config --global user.email "saiharsh143@gmail.com"
+
+git add . 
+git commit -am "sh-m1"
+git push origin master/ git push -u origin master 
+
+git clone https://yagnasivasai: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@github.com/yagnasivasai/maven-private.git

@@ -1,0 +1,93 @@
+pipeline{
+    agent any
+    stages{
+        stage('oc login'){
+            steps{
+                cleanWs()
+                sh '
+                echo Connecting to Openshift Cluster; \
+                oc login https://api.ocp4.example.com:6443 -u Sivasai -p Sivasai@12345 --insecure-skip-tls-verify=true; \
+                echo Connecting to Podman; \
+                podman login -u Sivasai -p \$(oc whoami -t) --tls-verify=false default-route-openshift-image-registry.apps.ocp4.example.com
+                '
+            }
+        }
+        stage('Stage 2'){
+            steps{
+                sh 'find $HOME -name "*.tar" -print'
+            }
+        }
+        stage('Stage 3'){
+            steps{
+                sh 'podman images'
+            }
+        }
+        stage('Stage 4'){
+            input {
+                message 'Can we Proceed to Production?'
+                ok 'Yes'
+            }
+            steps{
+                sh 'echo Deploying to Production'
+            }
+        }
+    }
+    
+}
+
+
+
+
+
+
+
+
+
+
+
+
+pipeline{
+     agent any
+stages{
+stage('oc login'){
+steps{
+sh"oc login https://api.ocp4.example.com:6443 -u Rukshar -p Rukshar@1234 --insecure-skip-tls-verify=true"
+sh"podman login -u Rukshar -p \$(oc whoami -t) --tls-verify=false default-route-openshift-image-registry.apps.ocp4.example.com"
+sh"podman load -i /home/jenkins/agency-service.tar"
+sh"podman tag agency-service default-route-openshift-image-registry.apps.ocp4.example.com/jenkins-images/agency-service:v1"
+sh"podman push default-route-openshift-image-registry.apps.ocp4.example.com/jenkins-images/agency-service:v1"
+}
+
+}
+}
+}
+
+HOST = default-route-openshift-image-registry.apps.ocp4.example.com
+oc login -u username-p password
+podman login -u username -p $(oc whoami -t) --tls-verify=false $HOST
+podman load -i <tar file name>
+podman tag <image-id> <image name with default-route>
+podman push <image name with default-route> --tls-verify=false
+<image name with default-route> = default-route-openshift-image-registry.apps.ocp4.example.com/credit-nirvana/predictive-service
+
+
+for file in */*.tar; do
+    (cd `dirname $file`; tar xvf `basename $file`)
+    unlink $file
+done
+
+podman load -i registry_2.tar.gz
+tar xvf VSAM_Remote_Source_114_Linux_x86.tar
+podman images
+
+## find all Perl (*.pl) files ##
+find $HOME -name "*.pl" -print
+## find all *.doc files ##
+find $HOME -name "*.doc" -print
+
+yegn2917
+SEEL2917
+949497
+
+e!3i#pZNKg86^&
+%%nnSs5!rNb75Z
